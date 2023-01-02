@@ -11,13 +11,24 @@ import java.util.stream.Collectors;
 public class RestaurantUtil {
 
     public static RestaurantToWithMenu getTo(Restaurant restaurant){
-        return new RestaurantToWithMenu(restaurant.getName(), restaurant.getMenu().stream()
+        RestaurantToWithMenu restaurantToWithMenu = new RestaurantToWithMenu();
+        restaurantToWithMenu.setName(restaurant.getName());
+        restaurantToWithMenu.setMenu(restaurant.getMenu().stream()
                 .map(MealUtil::getTo)
                 .collect(Collectors.toList()));
+        return restaurantToWithMenu;
     }
 
     public static RestaurantTo getToWithoutMenu(Restaurant restaurant) {
-        return new RestaurantTo(restaurant.getName());
+        RestaurantTo restaurantTo = new RestaurantTo();
+        restaurantTo.setName(restaurant.getName());
+        return restaurantTo;
+    }
+
+    public static Restaurant getEntity(RestaurantTo restaurantTo){
+        Restaurant restaurant = new Restaurant();
+        restaurant.setName(restaurantTo.getName());
+        return restaurant;
     }
 }
 

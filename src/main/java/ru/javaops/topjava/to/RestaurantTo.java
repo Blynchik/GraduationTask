@@ -1,14 +1,11 @@
 package ru.javaops.topjava.to;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.experimental.UtilityClass;
 
 public class RestaurantTo {
 
     String name;
-
-    public RestaurantTo(String name) {
-        this.name = name;
-    }
 
     public String getName() {
         return name;

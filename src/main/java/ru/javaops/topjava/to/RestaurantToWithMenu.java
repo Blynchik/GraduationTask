@@ -13,11 +13,6 @@ public class RestaurantToWithMenu {
     String name;
     List<MealTo> menu;
 
-    public RestaurantToWithMenu(String name, List<MealTo> menu) {
-        this.name = name;
-        this.menu = menu;
-    }
-
     public String getName() {
         return name;
     }
