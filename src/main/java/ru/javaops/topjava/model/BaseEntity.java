@@ -19,7 +19,7 @@ public abstract class BaseEntity implements Persistable<Integer>, HasId {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Schema(hidden = true)
+    @Schema(accessMode = Schema.AccessMode.READ_ONLY)
     protected Integer id;
 
     // doesn't work for hibernate lazy proxy

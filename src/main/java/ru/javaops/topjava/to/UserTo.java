@@ -4,12 +4,18 @@ import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.EqualsAndHashCode;
+import lombok.ToString;
 import lombok.Value;
+import lombok.experimental.SuperBuilder;
+import lombok.extern.jackson.Jacksonized;
 import ru.javaops.topjava.HasIdAndEmail;
 import ru.javaops.topjava.util.validation.NoHtml;
 
 @Value
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
+@Jacksonized
+@SuperBuilder
 public class UserTo extends NamedTo implements HasIdAndEmail {
     @Email
     @NotBlank
@@ -20,15 +26,4 @@ public class UserTo extends NamedTo implements HasIdAndEmail {
     @NotBlank
     @Size(min = 5, max = 32)
     String password;
-
-    public UserTo(Integer id, String name, String email, String password) {
-        super(id, name);
-        this.email = email;
-        this.password = password;
-    }
-
-    @Override
-    public String toString() {
-        return "UserTo:" + id + '[' + email + ']';
-    }
 }
