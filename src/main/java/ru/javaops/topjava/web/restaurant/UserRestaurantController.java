@@ -9,12 +9,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import ru.javaops.topjava.model.Restaurant;
 import ru.javaops.topjava.repository.RestaurantRepository;
+import ru.javaops.topjava.to.NamedTo;
 import ru.javaops.topjava.to.RestaurantTo;
+import ru.javaops.topjava.to.RestaurantToWithMenu;
 import ru.javaops.topjava.util.RestaurantUtil;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = UserRestaurantController.REST_URL,
@@ -29,13 +31,15 @@ public class UserRestaurantController {
 
     @GetMapping
     @Operation(summary = "return all restaurants")
-    public List<Restaurant> getAll() {
-        return restaurantRepository.findAll();
+    public List<RestaurantTo> getAll() {
+        return restaurantRepository.findAll().stream()
+                .map(RestaurantUtil::getToWithoutMenu)
+                .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "return restaurant with info")
-    public RestaurantTo getOne(@PathVariable int id) {
+    public RestaurantToWithMenu getOne(@PathVariable int id) {
         return RestaurantUtil.getTo(restaurantRepository.getWithMenu(id));
     }
 }
