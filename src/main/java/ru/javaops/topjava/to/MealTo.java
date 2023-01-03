@@ -10,12 +10,7 @@ public class MealTo{
 
     String name;
     Integer price;
-
-    public MealTo(String name, Integer price) {
-        this.name = name;
-        this.price = price;
-    }
-
+    String restaurantName;
 
     public String getName() {
         return name;
@@ -31,5 +26,13 @@ public class MealTo{
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public String getRestaurantName() {
+        return restaurantName;
+    }
+
+    public void setRestaurantName(String restaurantName) {
+        this.restaurantName = restaurantName;
     }
 }

@@ -7,7 +7,11 @@ import ru.javaops.topjava.to.MealTo;
 @UtilityClass
 public class MealUtil {
 
-    public static MealTo getTo(Meal meal){
-        return new MealTo(meal.getName(), meal.getPrice());
+    public static MealTo getTo(Meal meal) {
+        MealTo mealTo = new MealTo();
+        mealTo.setName(meal.getName());
+        mealTo.setPrice(meal.getPrice());
+        mealTo.setRestaurantName(meal.getRestaurant().getName());
+        return mealTo;
     }
 }
