@@ -11,7 +11,7 @@ public class MealUtil {
         MealTo mealTo = new MealTo();
         mealTo.setName(meal.getName());
         mealTo.setPrice(meal.getPrice());
-        mealTo.setRestaurantName(meal.getRestaurant().getName());
+        mealTo.setRestaurant(RestaurantUtil.getTo(meal.getRestaurant()));
         return mealTo;
     }
 }

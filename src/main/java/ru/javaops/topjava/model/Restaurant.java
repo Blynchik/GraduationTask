@@ -23,15 +23,6 @@ import java.util.List;
 public class Restaurant extends NamedEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @JsonBackReference
-    @ToString.Exclude
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Meal> menu;
-
-    public Restaurant(Integer id, String name){
-        super(id,name);
-    }
-    public Restaurant (String name){
-        this.name = name;
-    }
 }

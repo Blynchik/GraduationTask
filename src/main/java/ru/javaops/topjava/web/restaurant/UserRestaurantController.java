@@ -9,10 +9,9 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javaops.topjava.model.Restaurant;
 import ru.javaops.topjava.repository.RestaurantRepository;
-import ru.javaops.topjava.to.NamedTo;
 import ru.javaops.topjava.to.RestaurantTo;
-import ru.javaops.topjava.to.RestaurantToWithMenu;
 import ru.javaops.topjava.util.RestaurantUtil;
 
 import java.util.List;
@@ -33,13 +32,13 @@ public class UserRestaurantController {
     @Operation(summary = "return all restaurants")
     public List<RestaurantTo> getAll() {
         return restaurantRepository.findAll().stream()
-                .map(RestaurantUtil::getToWithoutMenu)
+                .map(RestaurantUtil::getTo)
                 .collect(Collectors.toList());
     }
 
     @GetMapping("/{id}")
     @Operation(summary = "return restaurant with info")
-    public RestaurantToWithMenu getOne(@PathVariable int id) {
-        return RestaurantUtil.getTo(restaurantRepository.getWithMenu(id));
+    public Restaurant getOne(@PathVariable int id) {
+        return restaurantRepository.getWithMeals(id);
     }
 }

@@ -1,6 +1,5 @@
 package ru.javaops.topjava.web.restaurant;
 
-import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import io.swagger.v3.oas.annotations.tags.Tags;
 import jakarta.validation.Valid;
@@ -12,12 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.RestaurantTo;
-import ru.javaops.topjava.to.RestaurantToWithMenu;
 import ru.javaops.topjava.util.RestaurantUtil;
-import ru.javaops.topjava.util.validation.ValidationUtil;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL,
