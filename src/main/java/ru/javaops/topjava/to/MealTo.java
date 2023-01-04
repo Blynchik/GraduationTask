@@ -4,13 +4,16 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 import lombok.extern.jackson.Jacksonized;
 
-@ToString(callSuper = true)
-@Jacksonized
-public class MealTo{
+import java.time.LocalDateTime;
+
+
+public class MealTo {
 
     String name;
     Integer price;
     RestaurantTo restaurant;
+    LocalDateTime setAt;
+    boolean expired;
 
     public String getName() {
         return name;
@@ -34,5 +37,21 @@ public class MealTo{
 
     public void setRestaurant(RestaurantTo restaurant) {
         this.restaurant = restaurant;
+    }
+
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(Boolean expired) {
+        this.expired = expired;
+    }
+
+    public LocalDateTime getSetAt() {
+        return setAt;
+    }
+
+    public void setSetAt(LocalDateTime setAt) {
+        this.setAt = setAt;
     }
 }

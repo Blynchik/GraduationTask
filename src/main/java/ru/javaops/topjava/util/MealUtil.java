@@ -4,6 +4,8 @@ import lombok.experimental.UtilityClass;
 import ru.javaops.topjava.model.Meal;
 import ru.javaops.topjava.to.MealTo;
 
+import java.time.LocalDate;
+
 @UtilityClass
 public class MealUtil {
 
@@ -12,6 +14,13 @@ public class MealUtil {
         mealTo.setName(meal.getName());
         mealTo.setPrice(meal.getPrice());
         mealTo.setRestaurant(RestaurantUtil.getTo(meal.getRestaurant()));
+        mealTo.setSetAt(meal.getSetAt());
         return mealTo;
+    }
+
+    public static void checkExpiration(MealTo meal){
+        if(meal.getSetAt().toLocalDate().isBefore(LocalDate.now())){
+            meal.setExpired(true);
+        }
     }
 }

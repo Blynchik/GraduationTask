@@ -8,6 +8,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.time.LocalDateTime;
+
 @Entity
 @Table(name = "meal")
 @Getter
@@ -24,4 +26,8 @@ public class Meal extends  NamedEntity{
     @JoinColumn(name = "restaurant_id",referencedColumnName = "id")
     @JsonIgnore
     private Restaurant restaurant;
+
+    @Column(name = "set_at")
+    @Temporal(TemporalType.TIMESTAMP)
+    private LocalDateTime setAt;
 }

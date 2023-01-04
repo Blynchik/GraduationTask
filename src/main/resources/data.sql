@@ -13,7 +13,7 @@ VALUES ('RESTAURANT1'),
        ('RESTAURANT2'),
        ('RESTAURANT3');
 
-INSERT INTO MEAL(NAME, PRICE, RESTAURANT_ID)
-VALUES ('MEAL1',1000, 1),
-       ('MEAL2',999, 1),
-       ('MEAL3', 1299,2);
+INSERT INTO MEAL(NAME, PRICE, RESTAURANT_ID, SET_AT)
+VALUES ('MEAL1', 1000, 1, current_timestamp()),
+       ('MEAL2', 999, 1, current_timestamp()-1),
+       ('MEAL3', 1299, 2, current_timestamp());

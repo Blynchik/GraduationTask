@@ -14,6 +14,12 @@ import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.MealTo;
 import ru.javaops.topjava.util.MealUtil;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
 @RestController
 @RequestMapping(value = AdminMealController.REST_URL,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -28,10 +34,14 @@ public class AdminMealController {
 
     @GetMapping("/{id}")
     public MealTo get(@PathVariable int id, @PathVariable int restaurantId) {
-        return MealUtil.getTo(
+        MealUtil.checkExpiration(MealUtil.getTo(mealRepository.get(id)));
+        MealTo meal = MealUtil.getTo(
                 mealRepository.get(id, restaurantId).orElseThrow(
                         () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant have not such meal")));
+        MealUtil.checkExpiration(meal);
+        return meal;
     }
+
 
     @Transactional
     @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
@@ -46,6 +56,7 @@ public class AdminMealController {
         meal.setName(mealToBeUpdated.getName());
         meal.setPrice(mealToBeUpdated.getPrice());
         meal.setRestaurant(restaurantRepository.getReferenceById(newRestaurantId));
+        meal.setSetAt(LocalDateTime.now());
 
         mealRepository.save(meal);
     }
