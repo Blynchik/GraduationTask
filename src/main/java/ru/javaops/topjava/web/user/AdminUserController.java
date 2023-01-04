@@ -65,13 +65,4 @@ public class AdminUserController extends AbstractUserController {
         log.info("getByEmail {}", email);
         return ResponseEntity.of(repository.findByEmailIgnoreCase(email));
     }
-
-//    @PatchMapping("/{id}")
-//    @ResponseStatus(HttpStatus.NO_CONTENT)
-//    @Transactional
-//    public void enable(@PathVariable int id, @RequestParam boolean enabled) {
-//        log.info(enabled ? "enable {}" : "disable {}", id);
-//        User user = repository.getExisted(id);
-//        user.setEnabled(enabled);
-//    }
 }

@@ -4,6 +4,7 @@ import lombok.Getter;
 import org.springframework.lang.NonNull;
 import ru.javaops.topjava.model.User;
 
+@Getter
 public class AuthUser extends org.springframework.security.core.userdetails.User {
 
     @Getter
