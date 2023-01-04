@@ -28,7 +28,6 @@ import java.util.stream.Collectors;
 public class AdminMealController {
 
     public static final String REST_URL = "/api/admin/restaurants/{restaurantId}/meals";
-
     private final MealRepository mealRepository;
     private final RestaurantRepository restaurantRepository;
 
