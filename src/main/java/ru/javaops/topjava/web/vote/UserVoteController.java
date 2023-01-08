@@ -22,6 +22,8 @@ import ru.javaops.topjava.web.SecurityUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalTime;
+import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -36,7 +38,7 @@ public class UserVoteController {
     private final RestaurantRepository restaurantRepository;
 
     @GetMapping
-    public List<VoteTo> getAll(){
+    public List<VoteTo> getAll() {
         return voteRepository.findAllByUserId(SecurityUtil.authUser().getId()).stream()
                 .map(VoteUtil::getTo)
                 .collect(Collectors.toList());
@@ -44,17 +46,23 @@ public class UserVoteController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<HttpStatus> create(@RequestParam int restaurantId){
-        Vote vote = VoteUtil.getEntity();
+    public ResponseEntity<HttpStatus> create(@RequestParam int restaurantId) {
 
+        Vote vote;
 
-        if(voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
-                .anyMatch(v -> v.getCreatedAt().toLocalDate().isEqual(LocalDate.now()))){
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+        if (voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
+                .anyMatch(v->v.getCreatedAt().toLocalDate().isEqual(LocalDate.now()) &&
+                        LocalTime.now().isBefore(LocalTime.of(11,0)))) {
+            vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
+                    .max(Comparator.comparing(Vote::getCreatedAt))
+                    .get();
+        } else {
+            vote = VoteUtil.getEntity();
         }
 
         vote.setRestaurant(restaurantRepository.get(restaurantId));
         voteRepository.save(vote);
+
         return ResponseEntity.ok(HttpStatus.OK);
     }
 }
