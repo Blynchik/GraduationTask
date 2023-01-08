@@ -46,7 +46,7 @@ public class UserVoteController {
 
     @Transactional
     @PostMapping
-    public ResponseEntity<HttpStatus> create(@RequestParam int restaurantId) {
+    public HttpStatus create(@RequestParam int restaurantId) {
 
         Vote vote;
 
@@ -63,6 +63,6 @@ public class UserVoteController {
         vote.setRestaurant(restaurantRepository.get(restaurantId));
         voteRepository.save(vote);
 
-        return ResponseEntity.ok(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 }

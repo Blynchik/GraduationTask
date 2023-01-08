@@ -29,8 +29,8 @@ public class AdminRestaurantController {
 
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<HttpStatus> create(@Valid @RequestBody RestaurantTo restaurantTo){
+    public HttpStatus create(@Valid @RequestBody RestaurantTo restaurantTo){
         restaurantRepository.save(RestaurantUtil.getEntity(restaurantTo));
-        return ResponseEntity.ok(HttpStatus.OK);
+        return HttpStatus.OK;
     }
 }
