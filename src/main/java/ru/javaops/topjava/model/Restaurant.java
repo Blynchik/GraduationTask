@@ -1,10 +1,7 @@
 package ru.javaops.topjava.model;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -23,6 +20,8 @@ import java.util.List;
 public class Restaurant extends NamedEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
+    @JsonBackReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Meal> menu;
+
 }

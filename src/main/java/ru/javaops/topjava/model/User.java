@@ -52,7 +52,6 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @JoinColumn
     @OnDelete(action = OnDeleteAction.CASCADE)
     private Set<Role> roles;
-
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.roles);
     }
