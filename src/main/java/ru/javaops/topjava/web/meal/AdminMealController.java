@@ -43,20 +43,16 @@ public class AdminMealController {
 
 
     @Transactional
-    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public void setNewRestaurant(@RequestBody Meal meal,
-                                 @RequestParam int newRestaurantId,
+    @PutMapping(value = "/{id}")
+    public void setNewRestaurant(@RequestParam int newRestaurantId,
                                  @PathVariable int id,
                                  @PathVariable int restaurantId) {
         Meal mealToBeUpdated = mealRepository.get(id, restaurantId).orElseThrow(
                 () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant have not such meal"));
 
-        meal.setId(id);
-        meal.setName(mealToBeUpdated.getName());
-        meal.setPrice(mealToBeUpdated.getPrice());
-        meal.setRestaurant(restaurantRepository.getReferenceById(newRestaurantId));
-        meal.setSetAt(LocalDateTime.now());
+        mealToBeUpdated.setRestaurant(restaurantRepository.getReferenceById(newRestaurantId));
+        mealToBeUpdated.setSetAt(LocalDateTime.now());
 
-        mealRepository.save(meal);
+        mealRepository.save(mealToBeUpdated);
     }
 }
