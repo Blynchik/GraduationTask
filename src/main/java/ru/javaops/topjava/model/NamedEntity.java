@@ -13,7 +13,7 @@ import ru.javaops.topjava.util.validation.NoHtml;
 @Getter
 @Setter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-@ToString(callSuper = true)
+@ToString
 public abstract class NamedEntity extends BaseEntity {
 
     @NotBlank

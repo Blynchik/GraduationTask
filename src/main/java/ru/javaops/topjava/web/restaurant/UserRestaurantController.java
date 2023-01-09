@@ -6,6 +6,7 @@ import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -25,6 +26,7 @@ import java.util.stream.Collectors;
         produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Tags({@Tag(name = "User restaurant controller", description = "View available restaurants")})
+@Transactional(readOnly = true)
 public class UserRestaurantController {
 
     public static final String REST_URL = "/api/restaurants";

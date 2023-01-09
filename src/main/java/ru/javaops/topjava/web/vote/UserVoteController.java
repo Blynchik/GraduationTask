@@ -40,14 +40,14 @@ public class UserVoteController {
 
     @GetMapping
     public List<VoteTo> getAll() {
-        return voteRepository.findAllByUserId(SecurityUtil.authUser().getId()).stream()
+        return voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
                 .map(VoteUtil::getTo)
                 .collect(Collectors.toList());
     }
 
     @Transactional
     @PostMapping
-    public HttpStatus create(@RequestParam int restaurantId) {
+    public HttpStatus vote(@RequestParam int restaurantId) {
 
         Vote vote;
 

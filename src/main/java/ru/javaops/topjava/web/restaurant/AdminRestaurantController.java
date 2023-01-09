@@ -11,6 +11,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
+import ru.javaops.topjava.model.Restaurant;
 import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.RestaurantTo;
 import ru.javaops.topjava.util.RestaurantUtil;
@@ -24,6 +25,7 @@ import java.util.stream.Collectors;
         produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
 @Tags({@Tag(name = "Admin restaurant controller", description = "Add new restaurants and set menu available")})
+@Transactional(readOnly = true)
 public class AdminRestaurantController {
     public static final String REST_URL = "/api/admin/restaurants";
 
@@ -32,7 +34,9 @@ public class AdminRestaurantController {
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     public HttpStatus create(@Valid @RequestBody RestaurantTo restaurantTo){
-        restaurantRepository.save(RestaurantUtil.getEntity(restaurantTo));
+        Restaurant restaurant = RestaurantUtil.getEntity(restaurantTo);
+        ValidationUtil.checkNew(restaurant);
+        restaurantRepository.save(restaurant);
         return HttpStatus.OK;
     }
 }

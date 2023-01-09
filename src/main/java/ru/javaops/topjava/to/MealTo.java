@@ -13,7 +13,7 @@ public class MealTo {
     Integer price;
     RestaurantTo restaurant;
     LocalDateTime setAt;
-    boolean expired;
+    Boolean expired;
 
     public String getName() {
         return name;

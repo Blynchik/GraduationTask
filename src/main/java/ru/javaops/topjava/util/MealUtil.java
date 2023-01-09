@@ -19,6 +19,7 @@ public class MealUtil {
     }
 
     public static void checkExpiration(MealTo meal){
+        meal.setExpired(false);
         if(meal.getSetAt().toLocalDate().isBefore(LocalDate.now())){
             meal.setExpired(true);
         }

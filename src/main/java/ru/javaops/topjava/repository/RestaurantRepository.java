@@ -2,13 +2,14 @@ package ru.javaops.topjava.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.model.Restaurant;
 
 import java.util.List;
 import java.util.Optional;
 
-@Transactional(readOnly = true)
+@Repository
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
     @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)

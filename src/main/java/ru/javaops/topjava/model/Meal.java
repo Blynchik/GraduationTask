@@ -27,7 +27,7 @@ public class Meal extends  NamedEntity{
     @JsonIgnore
     private Restaurant restaurant;
 
-    @Column(name = "set_at")
+    @Column(name = "set_at", nullable = false)
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime setAt;
 }

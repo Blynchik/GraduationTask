@@ -9,10 +9,12 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 import ru.javaops.topjava.error.AppException;
 import ru.javaops.topjava.model.Meal;
+import ru.javaops.topjava.model.Restaurant;
 import ru.javaops.topjava.repository.MealRepository;
 import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.MealTo;
 import ru.javaops.topjava.util.MealUtil;
+import ru.javaops.topjava.util.validation.ValidationUtil;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
@@ -40,6 +42,20 @@ public class AdminMealController {
         return meal;
     }
 
+    @GetMapping
+    public List<MealTo> getAll(@PathVariable int restaurantId){
+
+        Restaurant restaurant = restaurantRepository.getWithMeals(restaurantId).orElseThrow(
+                () -> new AppException(HttpStatus.NOT_FOUND, "Not found"));
+
+         List<MealTo> list = restaurant.getMenu().stream()
+                 .map(MealUtil::getTo).toList();
+
+          list.forEach(MealUtil::checkExpiration);
+
+          return list;
+    }
+
 
     @Transactional
     @PutMapping(value = "/{id}")
@@ -49,6 +65,8 @@ public class AdminMealController {
 
         Meal mealToBeUpdated = mealRepository.get(id, restaurantId).orElseThrow(
                 () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant has not such meal"));
+
+        ValidationUtil.assureIdConsistent(mealToBeUpdated, id);
 
         mealToBeUpdated.setRestaurant(restaurantRepository.findById(newRestaurantId).orElseThrow(
                 ()->new AppException(HttpStatus.NOT_FOUND, newRestaurantId +" Not found")));
