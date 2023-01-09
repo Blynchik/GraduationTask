@@ -20,7 +20,6 @@ import java.util.List;
 public class Restaurant extends NamedEntity{
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
-    @JsonBackReference
     @OnDelete(action = OnDeleteAction.CASCADE)
     private List<Meal> menu;
 

@@ -8,6 +8,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import ru.javaops.topjava.error.AppException;
 import ru.javaops.topjava.model.Restaurant;
 import ru.javaops.topjava.model.Vote;
 import ru.javaops.topjava.repository.RestaurantRepository;
@@ -53,14 +54,18 @@ public class UserVoteController {
         if (voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
                 .anyMatch(v->v.getCreatedAt().toLocalDate().isEqual(LocalDate.now()) &&
                         LocalTime.now().isBefore(LocalTime.of(11,0)))) {
+
             vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
                     .max(Comparator.comparing(Vote::getCreatedAt))
                     .get();
+
         } else {
             vote = VoteUtil.getEntity();
         }
 
-        vote.setRestaurant(restaurantRepository.get(restaurantId));
+        vote.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow(
+                ()-> new AppException(HttpStatus.NOT_FOUND, restaurantId + " Not found")));
+
         voteRepository.save(vote);
 
         return HttpStatus.OK;

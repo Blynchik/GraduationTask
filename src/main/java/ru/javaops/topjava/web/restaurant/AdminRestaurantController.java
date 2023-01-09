@@ -9,10 +9,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.RestaurantTo;
 import ru.javaops.topjava.util.RestaurantUtil;
+import ru.javaops.topjava.util.validation.ValidationUtil;
 
 import java.util.List;
 import java.util.stream.Collectors;

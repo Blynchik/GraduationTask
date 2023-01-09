@@ -1,10 +1,12 @@
 package ru.javaops.topjava.to;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import jakarta.validation.constraints.Size;
 import lombok.experimental.UtilityClass;
 
 public class RestaurantTo {
 
+    @Size(min = 2, max = 128)
     String name;
 
     public String getName() {

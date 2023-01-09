@@ -6,11 +6,15 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.javaops.topjava.model.Restaurant;
 
 import java.util.List;
+import java.util.Optional;
 
 @Transactional(readOnly = true)
 public interface RestaurantRepository extends BaseRepository<Restaurant> {
 
     @EntityGraph(attributePaths = {"menu"}, type = EntityGraph.EntityGraphType.LOAD)
     @Query(value = "SELECT r FROM Restaurant r WHERE r.id=?1")
-    Restaurant getWithMeals(int id);
+    Optional<Restaurant> getWithMeals(int id);
+
+
+    Optional<Restaurant> findById(Integer integer);
 }

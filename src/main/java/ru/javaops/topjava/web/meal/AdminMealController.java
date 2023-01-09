@@ -33,10 +33,9 @@ public class AdminMealController {
 
     @GetMapping("/{id}")
     public MealTo get(@PathVariable int id, @PathVariable int restaurantId) {
-        MealUtil.checkExpiration(MealUtil.getTo(mealRepository.get(id)));
         MealTo meal = MealUtil.getTo(
                 mealRepository.get(id, restaurantId).orElseThrow(
-                        () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant have not such meal")));
+                        () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant has not such meal")));
         MealUtil.checkExpiration(meal);
         return meal;
     }
@@ -47,10 +46,13 @@ public class AdminMealController {
     public void setNewRestaurant(@RequestParam int newRestaurantId,
                                  @PathVariable int id,
                                  @PathVariable int restaurantId) {
-        Meal mealToBeUpdated = mealRepository.get(id, restaurantId).orElseThrow(
-                () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant have not such meal"));
 
-        mealToBeUpdated.setRestaurant(restaurantRepository.getReferenceById(newRestaurantId));
+        Meal mealToBeUpdated = mealRepository.get(id, restaurantId).orElseThrow(
+                () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant has not such meal"));
+
+        mealToBeUpdated.setRestaurant(restaurantRepository.findById(newRestaurantId).orElseThrow(
+                ()->new AppException(HttpStatus.NOT_FOUND, newRestaurantId +" Not found")));
+
         mealToBeUpdated.setSetAt(LocalDateTime.now());
 
         mealRepository.save(mealToBeUpdated);

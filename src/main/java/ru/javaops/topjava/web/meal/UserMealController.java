@@ -1,12 +1,14 @@
 package ru.javaops.topjava.web.meal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ru.javaops.topjava.error.AppException;
 import ru.javaops.topjava.repository.MealRepository;
 import ru.javaops.topjava.repository.RestaurantRepository;
 import ru.javaops.topjava.to.MealTo;
@@ -36,6 +38,7 @@ public class UserMealController {
 
     @GetMapping("/{id}")
     public MealTo getOne(@PathVariable int id) {
-        return MealUtil.getTo(mealRepository.get(id));
+        return MealUtil.getTo(mealRepository.findById(id).orElseThrow(
+                ()-> new AppException(HttpStatus.NOT_FOUND, "Not found")));
     }
 }
