@@ -1,6 +1,7 @@
 package ru.sovetnikov.app.web.user;
 
 import jakarta.validation.Valid;
+import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -24,11 +25,13 @@ public class ProfileController extends AbstractUserController {
     }
 
     @DeleteMapping
+    @CacheEvict(value = "users", allEntries = true)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void delete(@AuthenticationPrincipal AuthUser authUser) {
         super.delete(authUser.id());
     }
 
+    @CacheEvict(value = "users", allEntries = true)
     @PutMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
     @ResponseStatus(HttpStatus.NO_CONTENT)
     @Transactional

@@ -1,6 +1,8 @@
 package ru.sovetnikov.app.web.meal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -37,6 +39,7 @@ public class AdminMealController {
         return meal;
     }
 
+    @Cacheable("meals")
     @GetMapping
     public List<MealTo> getAll(@PathVariable int restaurantId){
 
@@ -52,6 +55,7 @@ public class AdminMealController {
     }
 
 
+    @CacheEvict(value = "meals", allEntries = true)
     @Transactional
     @PutMapping(value = "/{id}")
     public void setNewRestaurant(@RequestParam int newRestaurantId,

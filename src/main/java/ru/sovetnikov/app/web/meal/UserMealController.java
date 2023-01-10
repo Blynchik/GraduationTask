@@ -1,6 +1,7 @@
 package ru.sovetnikov.app.web.meal;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,6 +29,7 @@ public class UserMealController {
     private final MealRepository mealRepository;
 
 
+    @Cacheable("meals")
     @GetMapping
     public List<MealTo> getAll(){
         return mealRepository.findAll().stream()

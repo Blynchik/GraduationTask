@@ -1,9 +1,11 @@
 package ru.sovetnikov.app.to;
 
-import java.time.LocalDateTime;
+import jakarta.validation.constraints.NotNull;
+
 
 public class VoteTo {
 
+    @NotNull
     Integer restaurantId;
 
     public VoteTo(){}

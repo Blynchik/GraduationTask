@@ -1,8 +1,7 @@
 package ru.sovetnikov.app.web.restaurant;
 
-import io.swagger.v3.oas.annotations.tags.Tag;
-import io.swagger.v3.oas.annotations.tags.Tags;
 import lombok.RequiredArgsConstructor;
+import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +22,6 @@ import java.util.stream.Collectors;
 @RequestMapping(value = UserRestaurantController.REST_URL,
         produces = MediaType.APPLICATION_JSON_VALUE)
 @RequiredArgsConstructor
-@Tags({@Tag(name = "User restaurant controller", description = "View available restaurants")})
 @Transactional(readOnly = true)
 public class UserRestaurantController {
 
@@ -31,6 +29,7 @@ public class UserRestaurantController {
 
     private final RestaurantRepository restaurantRepository;
 
+    @Cacheable("restaurants")
     @GetMapping
     public List<RestaurantTo> getAll() {
         return restaurantRepository.findAll().stream()

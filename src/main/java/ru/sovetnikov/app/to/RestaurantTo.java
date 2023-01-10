@@ -1,8 +1,6 @@
 package ru.sovetnikov.app.to;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.Size;
-import lombok.experimental.UtilityClass;
 
 public class RestaurantTo {
 
