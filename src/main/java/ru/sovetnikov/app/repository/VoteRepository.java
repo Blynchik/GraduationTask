@@ -7,7 +7,7 @@ import ru.sovetnikov.app.model.Vote;
 import java.util.List;
 
 @Repository
-public interface VoteRepository extends BaseRepository<Vote>{
+public interface VoteRepository extends BaseRepository<Vote> {
 
 
     @Query("SELECT v FROM Vote v WHERE v.user.id = :id")

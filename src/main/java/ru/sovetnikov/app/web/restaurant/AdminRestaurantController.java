@@ -26,7 +26,7 @@ public class AdminRestaurantController {
     @CacheEvict(value = "restaurants, allEntries = true")
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public HttpStatus create(@Valid @RequestBody RestaurantTo restaurantTo){
+    public HttpStatus create(@Valid @RequestBody RestaurantTo restaurantTo) {
         Restaurant restaurant = RestaurantUtil.getEntity(restaurantTo);
         ValidationUtil.checkNew(restaurant);
         restaurantRepository.save(restaurant);

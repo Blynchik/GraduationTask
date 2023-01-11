@@ -55,6 +55,7 @@ public class User extends NamedEntity implements HasIdAndEmail, Serializable {
     @OnDelete(action = OnDeleteAction.CASCADE)
     @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     private Set<Role> roles;
+
     public User(User u) {
         this(u.id, u.name, u.email, u.password, u.roles);
     }

@@ -18,7 +18,7 @@ import java.time.LocalDateTime;
 @Setter
 @ToString
 @NoArgsConstructor
-public class Vote extends BaseEntity{
+public class Vote extends BaseEntity {
 
     @Column(name = "created_at")
     @Temporal(TemporalType.TIMESTAMP)

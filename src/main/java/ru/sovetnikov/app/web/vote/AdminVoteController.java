@@ -23,7 +23,7 @@ public class AdminVoteController {
     private final VoteRepository voteRepository;
 
     @GetMapping
-    public List<VoteTo> getAll(){
+    public List<VoteTo> getAll() {
         return voteRepository.findAll().stream()
                 .map(VoteUtil::getTo)
                 .collect(Collectors.toList());

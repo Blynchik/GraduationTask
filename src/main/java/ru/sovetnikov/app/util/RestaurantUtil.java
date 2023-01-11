@@ -12,7 +12,7 @@ public class RestaurantUtil {
         return restaurantTo;
     }
 
-    public static Restaurant getEntity(RestaurantTo restaurantTo){
+    public static Restaurant getEntity(RestaurantTo restaurantTo) {
         Restaurant restaurant = new Restaurant();
         restaurant.setName(restaurantTo.getName());
         return restaurant;

@@ -39,7 +39,7 @@ public class UserRestaurantController {
 
     @GetMapping("/{id}")
     public Restaurant getOne(@PathVariable int id) {
-       return restaurantRepository.getWithMeals(id).orElseThrow(
-               ()-> new AppException(HttpStatus.NOT_FOUND, "Not found"));
+        return restaurantRepository.getWithMeals(id).orElseThrow(
+                () -> new AppException(HttpStatus.NOT_FOUND, "Not found"));
     }
 }

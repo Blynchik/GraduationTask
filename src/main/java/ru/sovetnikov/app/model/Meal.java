@@ -20,14 +20,14 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @ToString(callSuper = true)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Meal extends  NamedEntity{
+public class Meal extends NamedEntity {
 
     @Column(name = "price")
     @Positive
     private int price;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "restaurant_id",referencedColumnName = "id")
+    @JoinColumn(name = "restaurant_id", referencedColumnName = "id")
     @JsonIgnore
     private Restaurant restaurant;
 

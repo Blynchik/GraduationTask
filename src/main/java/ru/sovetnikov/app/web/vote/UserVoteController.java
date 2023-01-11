@@ -10,13 +10,18 @@ import ru.sovetnikov.app.model.Vote;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.repository.VoteRepository;
 import ru.sovetnikov.app.to.VoteTo;
+import ru.sovetnikov.app.util.TimeUtil;
 import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.web.SecurityUtil;
 
+import java.sql.Timestamp;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController
@@ -40,22 +45,18 @@ public class UserVoteController {
     @PostMapping
     public HttpStatus vote(@RequestParam int restaurantId) {
 
-        Vote vote;
+        Vote vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
+                .filter(v -> TimeUtil.checkTime(v.getCreatedAt()))
+                .findFirst().orElse(null);
 
-        if (voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
-                .anyMatch(v->v.getCreatedAt().toLocalDate().isEqual(LocalDate.now()) &&
-                        LocalTime.now().isBefore(LocalTime.of(11,0)))) {
-
-            vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
-                    .max(Comparator.comparing(Vote::getCreatedAt))
-                    .get();
-
-        } else {
-            vote = VoteUtil.getEntity();
+        if (vote == null) {
+            vote = new Vote();
+            vote.setCreatedAt(LocalDateTime.now());
+            vote.setUser(SecurityUtil.authUser());
         }
 
-        vote.setRestaurant(restaurantRepository.findById(restaurantId).orElseThrow(
-                ()-> new AppException(HttpStatus.NOT_FOUND, restaurantId + " Not found")));
+        vote.setRestaurant(restaurantRepository.findById(restaurantId)
+                .orElseThrow(() -> new AppException(HttpStatus.NOT_FOUND, "Not found")));
 
         voteRepository.save(vote);
 

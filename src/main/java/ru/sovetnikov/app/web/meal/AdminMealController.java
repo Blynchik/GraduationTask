@@ -41,17 +41,17 @@ public class AdminMealController {
 
     @Cacheable("meals")
     @GetMapping
-    public List<MealTo> getAll(@PathVariable int restaurantId){
+    public List<MealTo> getAll(@PathVariable int restaurantId) {
 
         Restaurant restaurant = restaurantRepository.getWithMeals(restaurantId).orElseThrow(
                 () -> new AppException(HttpStatus.NOT_FOUND, "Not found"));
 
-         List<MealTo> list = restaurant.getMenu().stream()
-                 .map(MealUtil::getTo).toList();
+        List<MealTo> list = restaurant.getMenu().stream()
+                .map(MealUtil::getTo).toList();
 
-          list.forEach(MealUtil::checkExpiration);
+        list.forEach(MealUtil::checkExpiration);
 
-          return list;
+        return list;
     }
 
 
@@ -68,7 +68,7 @@ public class AdminMealController {
         ValidationUtil.assureIdConsistent(mealToBeUpdated, id);
 
         mealToBeUpdated.setRestaurant(restaurantRepository.findById(newRestaurantId).orElseThrow(
-                ()->new AppException(HttpStatus.NOT_FOUND, newRestaurantId +" Not found")));
+                () -> new AppException(HttpStatus.NOT_FOUND, newRestaurantId + " Not found")));
 
         mealToBeUpdated.setSetAt(LocalDateTime.now());
 

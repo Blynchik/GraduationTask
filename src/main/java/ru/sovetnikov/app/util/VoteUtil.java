@@ -13,11 +13,12 @@ public class VoteUtil {
     public static VoteTo getTo(Vote vote) {
         VoteTo voteTo = new VoteTo();
         voteTo.setRestaurantId(vote.getRestaurant().getId());
+        voteTo.setCreatedAt(vote.getCreatedAt());
         return voteTo;
     }
 
-    public static Vote getEntity(){
-        Vote vote =  new Vote();
+    public static Vote getEntity() {
+        Vote vote = new Vote();
         vote.setCreatedAt(LocalDateTime.now());
         vote.setUser(SecurityUtil.authUser());
         return vote;

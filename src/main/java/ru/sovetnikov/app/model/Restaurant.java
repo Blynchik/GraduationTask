@@ -17,9 +17,9 @@ import java.util.List;
 @Getter
 @Setter
 @NoArgsConstructor
-@ToString (callSuper = true)
+@ToString(callSuper = true)
 @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
-public class Restaurant extends NamedEntity{
+public class Restaurant extends NamedEntity {
 
     @OneToMany(fetch = FetchType.LAZY, mappedBy = "restaurant")
     @OnDelete(action = OnDeleteAction.CASCADE)

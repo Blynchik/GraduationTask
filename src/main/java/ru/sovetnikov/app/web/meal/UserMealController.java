@@ -31,7 +31,7 @@ public class UserMealController {
 
     @Cacheable("meals")
     @GetMapping
-    public List<MealTo> getAll(){
+    public List<MealTo> getAll() {
         return mealRepository.findAll().stream()
                 .map(MealUtil::getTo)
                 .collect(Collectors.toList());
@@ -40,6 +40,6 @@ public class UserMealController {
     @GetMapping("/{id}")
     public MealTo getOne(@PathVariable int id) {
         return MealUtil.getTo(mealRepository.findById(id).orElseThrow(
-                ()-> new AppException(HttpStatus.NOT_FOUND, "Not found")));
+                () -> new AppException(HttpStatus.NOT_FOUND, "Not found")));
     }
 }
