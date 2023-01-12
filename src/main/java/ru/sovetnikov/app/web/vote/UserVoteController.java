@@ -14,14 +14,9 @@ import ru.sovetnikov.app.util.TimeUtil;
 import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.web.SecurityUtil;
 
-import java.sql.Timestamp;
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @RestController

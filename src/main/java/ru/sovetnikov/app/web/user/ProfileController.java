@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.*;
 import ru.sovetnikov.app.model.User;
 import ru.sovetnikov.app.to.UserTo;
 import ru.sovetnikov.app.util.UsersUtil;
-import ru.sovetnikov.app.web.AuthUser;
 import ru.sovetnikov.app.util.validation.ValidationUtil;
+import ru.sovetnikov.app.web.AuthUser;
 
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
