@@ -2,16 +2,18 @@ package ru.sovetnikov.app.web.restaurant;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import org.springframework.cache.annotation.CacheEvict;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.RestaurantTo;
 import ru.sovetnikov.app.util.RestaurantUtil;
 import ru.sovetnikov.app.util.validation.ValidationUtil;
+
+import java.net.URI;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL,
@@ -23,13 +25,16 @@ public class AdminRestaurantController {
 
     private final RestaurantRepository restaurantRepository;
 
-    @CacheEvict(value = "restaurants, allEntries = true")
     @Transactional
     @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public HttpStatus create(@Valid @RequestBody RestaurantTo restaurantTo) {
+    public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
+        restaurantTo.setMenu(null);
         Restaurant restaurant = RestaurantUtil.getEntity(restaurantTo);
         ValidationUtil.checkNew(restaurant);
         restaurantRepository.save(restaurant);
-        return HttpStatus.OK;
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL + "/{id}")
+                .buildAndExpand(restaurant.getId()).toUri();
+        return ResponseEntity.created(uriOfNewResource).body(restaurant);
     }
 }

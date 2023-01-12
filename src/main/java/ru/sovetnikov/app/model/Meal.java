@@ -35,4 +35,12 @@ public class Meal extends NamedEntity {
     @NotNull
     @Temporal(TemporalType.TIMESTAMP)
     private LocalDateTime setAt;
+
+    public Meal(int id, String name, Integer price, Restaurant restaurant, LocalDateTime setAt){
+        this.id = id;
+        this.name = name;
+        this.price = price;
+        this.restaurant =restaurant;
+        this.setAt = setAt;
+    }
 }

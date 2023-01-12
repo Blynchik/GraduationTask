@@ -18,6 +18,14 @@ public class MealUtil {
         return mealTo;
     }
 
+    public static MealTo getToWithoutTime(Meal meal) {
+        MealTo mealTo = new MealTo();
+        mealTo.setName(meal.getName());
+        mealTo.setPrice(meal.getPrice());
+        mealTo.setRestaurant(RestaurantUtil.getTo(meal.getRestaurant()));
+        return mealTo;
+    }
+
     public static void checkExpiration(MealTo meal) {
         meal.setExpired(false);
         if (meal.getSetAt().toLocalDate().isBefore(LocalDate.now())) {

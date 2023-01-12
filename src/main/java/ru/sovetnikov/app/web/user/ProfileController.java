@@ -16,7 +16,7 @@ import ru.sovetnikov.app.web.AuthUser;
 @RestController
 @RequestMapping(value = ProfileController.REST_URL, produces = MediaType.APPLICATION_JSON_VALUE)
 public class ProfileController extends AbstractUserController {
-    static final String REST_URL = "/api/profile";
+     static final String REST_URL = "/api/profile";
 
     @GetMapping
     public User get(@AuthenticationPrincipal AuthUser authUser) {

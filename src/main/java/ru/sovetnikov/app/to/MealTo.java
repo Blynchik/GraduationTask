@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.to;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Temporal;
 import jakarta.persistence.TemporalType;
 import jakarta.validation.constraints.NotBlank;

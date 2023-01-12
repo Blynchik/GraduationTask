@@ -13,6 +13,7 @@ import ru.sovetnikov.app.error.AppException;
 import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.RestaurantTo;
+import ru.sovetnikov.app.util.MealUtil;
 import ru.sovetnikov.app.util.RestaurantUtil;
 
 import java.util.List;
@@ -38,8 +39,13 @@ public class UserRestaurantController {
     }
 
     @GetMapping("/{id}")
-    public Restaurant getOne(@PathVariable int id) {
-        return restaurantRepository.getWithMeals(id).orElseThrow(
-                () -> new AppException(HttpStatus.NOT_FOUND, "Not found"));
+    public RestaurantTo getOne(@PathVariable int id) {
+        RestaurantTo restaurant = RestaurantUtil.getTo(restaurantRepository.findById(id).orElseThrow(
+                () -> new AppException(HttpStatus.NOT_FOUND, "Not found")));
+        restaurant.setMenu(
+                restaurantRepository.getWithMeals(id).orElseThrow(
+                () -> new AppException(HttpStatus.NOT_FOUND, "Not found")).getMenu().stream()
+                .map(MealUtil::getToWithoutTime).collect(Collectors.toList()));
+        return restaurant;
     }
 }
