@@ -5,17 +5,22 @@ import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.sovetnikov.app.error.AppException;
 import ru.sovetnikov.app.model.Meal;
 import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.MealRepository;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.MealTo;
+import ru.sovetnikov.app.to.VoteTo;
 import ru.sovetnikov.app.util.MealUtil;
+import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.util.validation.ValidationUtil;
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -58,9 +63,9 @@ public class AdminMealController {
     @CacheEvict(value = "meals", allEntries = true)
     @Transactional
     @PutMapping(value = "/{id}")
-    public void setNewRestaurant(@RequestParam int newRestaurantId,
-                                 @PathVariable int id,
-                                 @PathVariable int restaurantId) {
+    public ResponseEntity<MealTo> setNewRestaurant(@RequestParam int newRestaurantId,
+                                                   @PathVariable int id,
+                                                   @PathVariable int restaurantId) {
 
         Meal mealToBeUpdated = mealRepository.get(id, restaurantId).orElseThrow(
                 () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant has not such meal"));
@@ -73,5 +78,13 @@ public class AdminMealController {
         mealToBeUpdated.setSetAt(LocalDateTime.now());
 
         mealRepository.save(mealToBeUpdated);
+
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL)
+                .buildAndExpand(mealToBeUpdated.getId())
+                .toUri();
+
+        return ResponseEntity.created(uriOfNewResource)
+                .body(MealUtil.getTo(mealToBeUpdated));
     }
 }

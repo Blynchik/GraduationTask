@@ -16,6 +16,7 @@ public class RestaurantAndMealTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "menu");
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class, "menu");
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_WITH_MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class);
+    public static final MatcherFactory.Matcher<MealTo> MEAL_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(MealTo.class, "setAt");
 
     public static final LocalDateTime NOW = LocalDateTime.now();
 
@@ -41,25 +42,39 @@ public class RestaurantAndMealTestData {
     public static final Meal MEAL2 = new Meal(MEAL2_ID, MEAL2_NAME,999, RESTAURANT1, NOW.minusDays(1));
     public static final Meal MEAL3 = new Meal(MEAL2_ID, MEAL3_NAME,1299, RESTAURANT2, NOW);
 
-    public static final List<Meal> meals = List.of(MEAL1,MEAL2,MEAL3);
+    public static final List<Meal> meals = List.of(MEAL1, MEAL2, MEAL3);
     public static final List<Restaurant>  restaurants = List.of(RESTAURANT1,RESTAURANT2,RESTAURANT3);
 
     public static final List<RestaurantTo> restaurantsTo;
+    public static final List<MealTo> mealsTo;
     public static final RestaurantTo RESTAURANT1_TO;
+    public static final List<MealTo> rest1Menu;
 
-    public static final MealTo MEAL1_TO;
-    public static final MealTo MEAL2_TO;
-    public static final MealTo MEAL3_TO;
+    public static final MealTo MEAL1_TO_WITHOUT_TIME;
+    public static final MealTo MEAL2_TO_WITHOUT_TIME;
+    public static final MealTo MEAL3_TO_WITHOUT_TIME;
+
+    public static final MealTo mealWithExpiration;
 
     static{
         restaurantsTo = restaurants.stream()
                 .map(RestaurantUtil::getTo)
                 .collect(Collectors.toList());
 
+        mealsTo = meals.stream()
+                .map(MealUtil::getTo)
+                .collect(Collectors.toList());
+
         RESTAURANT1_TO = RestaurantUtil.getTo(RESTAURANT1);
-        MEAL1_TO = MealUtil.getToWithoutTime(MEAL1);
-        MEAL2_TO = MealUtil.getToWithoutTime(MEAL2);
-        MEAL3_TO = MealUtil.getToWithoutTime(MEAL3);
-        RESTAURANT1_TO.setMenu(List.of(MEAL1_TO,MEAL2_TO));
+        MEAL1_TO_WITHOUT_TIME = MealUtil.getToWithoutTime(MEAL1);
+        MEAL2_TO_WITHOUT_TIME = MealUtil.getToWithoutTime(MEAL2);
+        MEAL3_TO_WITHOUT_TIME = MealUtil.getToWithoutTime(MEAL3);
+        RESTAURANT1_TO.setMenu(List.of(MEAL1_TO_WITHOUT_TIME, MEAL2_TO_WITHOUT_TIME));
+
+        rest1Menu = List.of(MealUtil.getTo(MEAL1),MealUtil.getTo(MEAL2));
+        rest1Menu.forEach(MealUtil::checkExpiration);
+
+        mealWithExpiration = MealUtil.getTo(MEAL1);
+        MealUtil.checkExpiration(mealWithExpiration);
     }
 }
