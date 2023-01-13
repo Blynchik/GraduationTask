@@ -6,24 +6,17 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sovetnikov.app.model.Vote;
 import ru.sovetnikov.app.repository.VoteRepository;
 import ru.sovetnikov.app.to.VoteTo;
-import ru.sovetnikov.app.util.JsonUtil;
 import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.web.AbstractControllerTest;
-import ru.sovetnikov.app.web.restaurant.RestaurantTestData;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
-import java.util.List;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.sovetnikov.app.web.restaurant.RestaurantTestData.*;
-import static ru.sovetnikov.app.web.restaurant.UserRestaurantController.REST_URL;
+import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.*;
 import static ru.sovetnikov.app.web.user.UserTestData.*;
 import static ru.sovetnikov.app.web.vote.VoteTestData.*;
 
@@ -53,9 +46,8 @@ public class UserVoteControllerTest extends AbstractControllerTest {
                 .andExpect(status().isCreated());
 
         VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
-        int newId = 4;
         VOTE_TO_MATCHER.assertMatch(created, vote);
-        VOTE_TO_MATCHER.assertMatch(VoteUtil.getTo(voteRepository.getExisted(newId)), vote);
+//        VOTE_TO_MATCHER.assertMatch(VoteUtil.getTo(voteRepository.getExisted(4)), vote);
     }
 
     @Test

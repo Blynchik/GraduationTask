@@ -31,11 +31,11 @@ public class AdminRestaurantControllerTest extends AbstractControllerTest {
                 .content(JsonUtil.writeValue(newRestaurant)))
                 .andExpect(status().isCreated());
 
-        Restaurant created = RestaurantTestData.RESTAURANT_MATCHER.readFromJson(action);
+        Restaurant created = RestaurantAndMealTestData.RESTAURANT_MATCHER.readFromJson(action);
         int newId = created.id();
         newRestaurant.setId(newId);
-        RestaurantTestData.RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RestaurantTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getExisted(newId), newRestaurant);
+        RestaurantAndMealTestData.RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
+        RestaurantAndMealTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getExisted(newId), newRestaurant);
     }
 
     @Test

@@ -6,16 +6,14 @@ import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.sovetnikov.app.repository.RestaurantRepository;
-import ru.sovetnikov.app.repository.UserRepository;
 import ru.sovetnikov.app.web.AbstractControllerTest;
-import ru.sovetnikov.app.web.user.AdminUserController;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.sovetnikov.app.web.restaurant.RestaurantTestData.NOT_FOUND;
+import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.NOT_FOUND;
 import static ru.sovetnikov.app.web.restaurant.UserRestaurantController.REST_URL;
-import static ru.sovetnikov.app.web.restaurant.RestaurantTestData.*;
+import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.*;
 import static ru.sovetnikov.app.web.user.UserTestData.*;
 
 public class UserRestaurantControllerTest extends AbstractControllerTest {
@@ -30,7 +28,7 @@ public class UserRestaurantControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(RestaurantTestData.RESTAURANT_TO_MATCHER.contentJson(restaurantsTo));
+                .andExpect(RestaurantAndMealTestData.RESTAURANT_TO_MATCHER.contentJson(restaurantsTo));
     }
 
     @Test

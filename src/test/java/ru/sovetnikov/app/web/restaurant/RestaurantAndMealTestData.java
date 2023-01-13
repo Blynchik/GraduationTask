@@ -8,14 +8,11 @@ import ru.sovetnikov.app.util.MealUtil;
 import ru.sovetnikov.app.util.RestaurantUtil;
 import ru.sovetnikov.app.web.MatcherFactory;
 
-import java.math.BigDecimal;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
-public class RestaurantTestData {
+public class RestaurantAndMealTestData {
     public static final MatcherFactory.Matcher<Restaurant> RESTAURANT_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(Restaurant.class, "menu");
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class, "menu");
     public static final MatcherFactory.Matcher<RestaurantTo> RESTAURANT_TO_WITH_MENU_MATCHER = MatcherFactory.usingIgnoringFieldsComparator(RestaurantTo.class);
