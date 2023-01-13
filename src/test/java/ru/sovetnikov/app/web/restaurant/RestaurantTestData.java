@@ -65,12 +65,4 @@ public class RestaurantTestData {
         MEAL3_TO = MealUtil.getToWithoutTime(MEAL3);
         RESTAURANT1_TO.setMenu(List.of(MEAL1_TO,MEAL2_TO));
     }
-
-
-
-    public static Restaurant getNew() {
-        Restaurant restaurant = new Restaurant();
-        restaurant.setName("New");
-        return restaurant;
-    }
 }

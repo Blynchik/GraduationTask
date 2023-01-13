@@ -3,8 +3,10 @@ package ru.sovetnikov.app.web.vote;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import ru.sovetnikov.app.error.AppException;
 import ru.sovetnikov.app.model.Vote;
 import ru.sovetnikov.app.repository.RestaurantRepository;
@@ -15,6 +17,7 @@ import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.web.SecurityUtil;
 
 
+import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -38,7 +41,7 @@ public class UserVoteController {
 
     @Transactional
     @PostMapping
-    public HttpStatus vote(@RequestParam int restaurantId) {
+    public ResponseEntity<VoteTo> vote(@RequestParam int restaurantId) {
 
         Vote vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
                 .filter(v -> TimeUtil.checkTime(v.getCreatedAt()))
@@ -55,6 +58,12 @@ public class UserVoteController {
 
         voteRepository.save(vote);
 
-        return HttpStatus.OK;
+        URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path(REST_URL)
+                .buildAndExpand(vote.getId())
+                .toUri();
+
+        return ResponseEntity.created(uriOfNewResource)
+                .body(VoteUtil.getTo(vote));
     }
 }
