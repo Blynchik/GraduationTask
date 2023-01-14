@@ -27,7 +27,7 @@ P.P.S.: Assume that your API will be used by a frontend developer to build front
 - Stack: [JDK 17](http://jdk.java.net/17/), Spring Boot 3.0, Lombok, H2, Caffeine Cache, Swagger/OpenAPI 3.0
 - Run: `mvn spring-boot:run` in root directory.
 -----------------------------------------------------
-[REST API documentation](http://localhost:8080/) 
+[REST API documentation](http://localhost:8080/swagger-ui/index.html)
 
 [api-docs](http://localhost:8080/v3/api-docs/REST%20API)
 
