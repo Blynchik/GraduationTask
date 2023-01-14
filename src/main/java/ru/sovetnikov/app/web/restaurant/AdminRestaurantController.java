@@ -11,9 +11,10 @@ import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.RestaurantTo;
 import ru.sovetnikov.app.util.RestaurantUtil;
-import ru.sovetnikov.app.util.validation.ValidationUtil;
 
 import java.net.URI;
+
+import static ru.sovetnikov.app.util.validation.ValidationUtil.checkNew;
 
 @RestController
 @RequestMapping(value = AdminRestaurantController.REST_URL,
@@ -26,11 +27,10 @@ public class AdminRestaurantController {
     private final RestaurantRepository restaurantRepository;
 
     @Transactional
-    @PostMapping(consumes = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<Restaurant> create(@Valid @RequestBody RestaurantTo restaurantTo) {
-        restaurantTo.setMenu(null);
-        Restaurant restaurant = RestaurantUtil.getEntity(restaurantTo);
-        ValidationUtil.checkNew(restaurant);
+    @PostMapping
+    public ResponseEntity<Restaurant> create(@Valid @RequestParam String name) {
+        Restaurant restaurant = new Restaurant(name);
+        checkNew(restaurant);
         restaurantRepository.save(restaurant);
         URI uriOfNewResource = ServletUriComponentsBuilder.fromCurrentContextPath()
                 .path(REST_URL + "/{id}")

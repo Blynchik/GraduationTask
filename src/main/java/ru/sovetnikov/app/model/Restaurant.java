@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.model;
 
+import jakarta.annotation.Nullable;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

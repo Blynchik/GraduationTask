@@ -17,6 +17,8 @@ import ru.sovetnikov.app.util.MealUtil;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static ru.sovetnikov.app.util.MealUtil.getTo;
+
 @RestController
 @RequestMapping(value = UserMealController.REST_URL,
         produces = MediaType.APPLICATION_JSON_VALUE)
@@ -39,7 +41,7 @@ public class UserMealController {
 
     @GetMapping("/{id}")
     public MealTo getOne(@PathVariable int id) {
-        return MealUtil.getTo(mealRepository.findById(id).orElseThrow(
+        return getTo(mealRepository.findById(id).orElseThrow(
                 () -> new AppException(HttpStatus.NOT_FOUND, "Not found")));
     }
 }

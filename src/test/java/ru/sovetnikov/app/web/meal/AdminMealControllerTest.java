@@ -4,28 +4,18 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.MealRepository;
-import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.MealTo;
-import ru.sovetnikov.app.to.RestaurantTo;
-import ru.sovetnikov.app.to.VoteTo;
-import ru.sovetnikov.app.util.JsonUtil;
-import ru.sovetnikov.app.util.MealUtil;
-import ru.sovetnikov.app.util.RestaurantUtil;
 import ru.sovetnikov.app.web.AbstractControllerTest;
 import ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
-import static ru.sovetnikov.app.web.restaurant.AdminRestaurantController.REST_URL;
+import static ru.sovetnikov.app.util.MealUtil.getTo;
 import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.*;
 import static ru.sovetnikov.app.web.user.UserTestData.ADMIN_MAIL;
-import static ru.sovetnikov.app.web.user.UserTestData.USER_MAIL;
-import static ru.sovetnikov.app.web.vote.VoteTestData.VOTE_TO_MATCHER;
 
 public class AdminMealControllerTest extends AbstractControllerTest {
 
@@ -74,18 +64,12 @@ public class AdminMealControllerTest extends AbstractControllerTest {
         meal.setName(MEAL1_NAME);
         meal.setPrice(1000);
 
-//        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL+"/"+MEAL1_ID)
-//                .param("newRestaurantId", String.valueOf(3)))
-//                .andExpect(status().isOk());
-//
-//        MealTo created = MEAL_TO_MATCHER.readFromJson(action);
-//        MEAL_TO_MATCHER.assertMatch(created, meal);
 
         perform(MockMvcRequestBuilders.put(REST_URL +"/"+MEAL1_ID).contentType(MediaType.APPLICATION_JSON)
                 .param("newRestaurantId", String.valueOf(3)))
                 .andDo(print())
                 .andExpect(status().isCreated());
 
-        MEAL_TO_MATCHER.assertMatch(MealUtil.getTo(mealRepository.get(MEAL1_ID)), meal);
+        MEAL_TO_MATCHER.assertMatch(getTo(mealRepository.get(MEAL1_ID)), meal);
     }
 }

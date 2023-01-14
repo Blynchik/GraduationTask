@@ -1,21 +1,18 @@
 package ru.sovetnikov.app.web.meal;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sovetnikov.app.util.MealUtil;
 import ru.sovetnikov.app.web.AbstractControllerTest;
 import ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData;
 
-import java.util.stream.Collectors;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
+import static ru.sovetnikov.app.util.MealUtil.getTo;
 import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.*;
-import static ru.sovetnikov.app.web.restaurant.UserRestaurantController.REST_URL;
 import static ru.sovetnikov.app.web.user.UserTestData.USER_MAIL;
 
 public class UserMealControllerTest extends AbstractControllerTest {
@@ -37,7 +34,7 @@ public class UserMealControllerTest extends AbstractControllerTest {
                 .andExpect(status().isOk())
                 .andDo(print())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(MEAL_TO_MATCHER.contentJson(MealUtil.getTo(MEAL1)));
+                .andExpect(MEAL_TO_MATCHER.contentJson(getTo(MEAL1)));
     }
 
     @Test

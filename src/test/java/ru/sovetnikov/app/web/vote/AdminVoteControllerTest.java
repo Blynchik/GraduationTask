@@ -1,25 +1,18 @@
 package ru.sovetnikov.app.web.vote;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sovetnikov.app.repository.VoteRepository;
 import ru.sovetnikov.app.web.AbstractControllerTest;
 
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.sovetnikov.app.web.user.UserTestData.ADMIN_MAIL;
 import static ru.sovetnikov.app.web.vote.VoteTestData.allVotes;
-import static ru.sovetnikov.app.web.vote.VoteTestData.votes;
 
 public class AdminVoteControllerTest extends AbstractControllerTest {
 
-    @Autowired
-    private VoteRepository voteRepository;
     private static final String REST_URL = "/api/admin/votes";
 
     @Test

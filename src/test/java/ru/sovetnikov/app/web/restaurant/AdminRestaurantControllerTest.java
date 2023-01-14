@@ -13,6 +13,7 @@ import ru.sovetnikov.app.util.JsonUtil;
 import ru.sovetnikov.app.util.RestaurantUtil;
 import ru.sovetnikov.app.web.AbstractControllerTest;
 
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.sovetnikov.app.web.restaurant.AdminRestaurantController.REST_URL;
 import static ru.sovetnikov.app.web.user.UserTestData.*;
@@ -20,22 +21,20 @@ import static ru.sovetnikov.app.web.user.UserTestData.*;
 public class AdminRestaurantControllerTest extends AbstractControllerTest {
     @Autowired
     private RestaurantRepository restaurantRepository;
-    private static final String REST_URL_SLASH = REST_URL + '/';
 
     @Test
     @WithUserDetails(value = ADMIN_MAIL)
     void create() throws Exception {
         Restaurant newRestaurant = RestaurantUtil.getEntity(new RestaurantTo("New"));
-        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
+        newRestaurant.setId(4);
+
+        perform(MockMvcRequestBuilders.post(REST_URL)
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(JsonUtil.writeValue(newRestaurant)))
+                .param("name", String.valueOf("New")))
+                .andDo(print())
                 .andExpect(status().isCreated());
 
-        Restaurant created = RestaurantAndMealTestData.RESTAURANT_MATCHER.readFromJson(action);
-        int newId = created.id();
-        newRestaurant.setId(newId);
-        RestaurantAndMealTestData.RESTAURANT_MATCHER.assertMatch(created, newRestaurant);
-        RestaurantAndMealTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getExisted(newId), newRestaurant);
+        RestaurantAndMealTestData.RESTAURANT_MATCHER.assertMatch(restaurantRepository.getExisted(4), newRestaurant);
     }
 
     @Test

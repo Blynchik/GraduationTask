@@ -15,14 +15,15 @@ import ru.sovetnikov.app.model.Restaurant;
 import ru.sovetnikov.app.repository.MealRepository;
 import ru.sovetnikov.app.repository.RestaurantRepository;
 import ru.sovetnikov.app.to.MealTo;
-import ru.sovetnikov.app.to.VoteTo;
 import ru.sovetnikov.app.util.MealUtil;
-import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.util.validation.ValidationUtil;
 
 import java.net.URI;
 import java.time.LocalDateTime;
 import java.util.List;
+
+import static ru.sovetnikov.app.util.MealUtil.checkExpiration;
+import static ru.sovetnikov.app.util.MealUtil.getTo;
 
 @RestController
 @RequestMapping(value = AdminMealController.REST_URL,
@@ -37,10 +38,10 @@ public class AdminMealController {
 
     @GetMapping("/{id}")
     public MealTo get(@PathVariable int id, @PathVariable int restaurantId) {
-        MealTo meal = MealUtil.getTo(
+        MealTo meal = getTo(
                 mealRepository.get(id, restaurantId).orElseThrow(
                         () -> new AppException(HttpStatus.BAD_REQUEST, "This restaurant has not such meal")));
-        MealUtil.checkExpiration(meal);
+        checkExpiration(meal);
         return meal;
     }
 
@@ -85,6 +86,6 @@ public class AdminMealController {
                 .toUri();
 
         return ResponseEntity.created(uriOfNewResource)
-                .body(MealUtil.getTo(mealToBeUpdated));
+                .body(getTo(mealToBeUpdated));
     }
 }

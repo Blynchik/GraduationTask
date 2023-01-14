@@ -1,19 +1,13 @@
 package ru.sovetnikov.app.web.vote;
 
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.web.servlet.ResultActions;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
-import ru.sovetnikov.app.repository.VoteRepository;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;;
 import ru.sovetnikov.app.to.VoteTo;
-import ru.sovetnikov.app.util.VoteUtil;
 import ru.sovetnikov.app.web.AbstractControllerTest;
 
-import java.time.LocalDateTime;
-
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static ru.sovetnikov.app.web.restaurant.RestaurantAndMealTestData.*;
@@ -21,15 +15,12 @@ import static ru.sovetnikov.app.web.user.UserTestData.*;
 import static ru.sovetnikov.app.web.vote.VoteTestData.*;
 
 public class UserVoteControllerTest extends AbstractControllerTest {
-    private static final String REST_URL = "api/profile/votes";
-
-    @Autowired
-    private VoteRepository voteRepository;
+    private static final String REST_URL = "/api/profile/votes";
 
     @Test
     @WithUserDetails(value = USER_MAIL)
     void getAll() throws Exception {
-        perform(MockMvcRequestBuilders.get("/"+REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(VoteTestData.VOTE_TO_MATCHER.contentJson(votes));
@@ -41,18 +32,17 @@ public class UserVoteControllerTest extends AbstractControllerTest {
         VoteTo vote = new VoteTo();
         vote.setRestaurantId(RESTAURANT3_ID);
 
-        ResultActions action = perform(MockMvcRequestBuilders.post("/"+REST_URL)
+        ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL)
                 .param("restaurantId", String.valueOf(RESTAURANT3_ID)))
                 .andExpect(status().isCreated());
 
         VoteTo created = VOTE_TO_MATCHER.readFromJson(action);
         VOTE_TO_MATCHER.assertMatch(created, vote);
-//        VOTE_TO_MATCHER.assertMatch(VoteUtil.getTo(voteRepository.getExisted(4)), vote);
     }
 
     @Test
     void getUnauthorized() throws Exception {
-        perform(MockMvcRequestBuilders.get("/"+REST_URL))
+        perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isUnauthorized());
     }
 }

@@ -1,7 +1,5 @@
 package ru.sovetnikov.app.to;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import jakarta.validation.constraints.Size;
 
 import java.util.List;
