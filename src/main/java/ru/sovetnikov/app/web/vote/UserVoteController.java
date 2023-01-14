@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.web.vote;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -33,6 +34,7 @@ public class UserVoteController {
     private final RestaurantRepository restaurantRepository;
 
     @GetMapping
+    @Operation(summary = "User can see all his votes with voting time")
     public List<VoteTo> getAll() {
         return voteRepository.findAllByUserId(SecurityUtil.authId()).stream()
                 .map(VoteUtil::getTo)
@@ -41,6 +43,7 @@ public class UserVoteController {
 
     @Transactional
     @PostMapping
+    @Operation(summary = "User can vote for restaurant or change his mind until 11.00 AM current day. After this time he create new vote")
     public ResponseEntity<VoteTo> vote(@RequestParam int restaurantId) {
 
         Vote vote = voteRepository.findAllByUserId(SecurityUtil.authId()).stream()

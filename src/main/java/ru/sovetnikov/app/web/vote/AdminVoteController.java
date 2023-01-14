@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.web.vote;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,6 +24,7 @@ public class AdminVoteController {
     private final VoteRepository voteRepository;
 
     @GetMapping
+    @Operation(summary = "Admin can see votes from all users")
     public List<VoteTo> getAll() {
         return voteRepository.findAll().stream()
                 .map(VoteUtil::getTo)

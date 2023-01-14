@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.web.restaurant;
 
+import io.swagger.v3.oas.annotations.Operation;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.MediaType;
@@ -28,6 +29,7 @@ public class AdminRestaurantController {
 
     @Transactional
     @PostMapping
+    @Operation(summary = " Admin can create new restaurant without menu")
     public ResponseEntity<Restaurant> create(@Valid @RequestParam String name) {
         Restaurant restaurant = new Restaurant(name);
         checkNew(restaurant);

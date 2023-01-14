@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.web.meal;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.Cacheable;
 import org.springframework.http.HttpStatus;
@@ -33,6 +34,7 @@ public class UserMealController {
 
     @Cacheable("meals")
     @GetMapping
+    @Operation(summary = "User can see which restaurant has meal from the list")
     public List<MealTo> getAll() {
         return mealRepository.findAll().stream()
                 .map(MealUtil::getTo)
@@ -40,6 +42,7 @@ public class UserMealController {
     }
 
     @GetMapping("/{id}")
+    @Operation(summary = "User can see all information about one meal")
     public MealTo getOne(@PathVariable int id) {
         return getTo(mealRepository.findById(id).orElseThrow(
                 () -> new AppException(HttpStatus.NOT_FOUND, "Not found")));

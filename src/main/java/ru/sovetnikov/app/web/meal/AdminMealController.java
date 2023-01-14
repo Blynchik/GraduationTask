@@ -1,5 +1,6 @@
 package ru.sovetnikov.app.web.meal;
 
+import io.swagger.v3.oas.annotations.Operation;
 import lombok.RequiredArgsConstructor;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
@@ -37,6 +38,7 @@ public class AdminMealController {
     private final RestaurantRepository restaurantRepository;
 
     @GetMapping("/{id}")
+    @Operation(summary = "Meal information including whether the meal on the menu needs to be changed and when it was changed last time. Meal should change every day")
     public MealTo get(@PathVariable int id, @PathVariable int restaurantId) {
         MealTo meal = getTo(
                 mealRepository.get(id, restaurantId).orElseThrow(
@@ -47,6 +49,7 @@ public class AdminMealController {
 
     @Cacheable("meals")
     @GetMapping
+    @Operation(summary = "Get meal from one restaurant with an expiration date")
     public List<MealTo> getAll(@PathVariable int restaurantId) {
 
         Restaurant restaurant = restaurantRepository.getWithMeals(restaurantId).orElseThrow(
@@ -64,6 +67,7 @@ public class AdminMealController {
     @CacheEvict(value = "meals", allEntries = true)
     @Transactional
     @PutMapping(value = "/{id}")
+    @Operation(summary = "Reassign meal for the next day to the same restaurant or another restaurant")
     public ResponseEntity<MealTo> setNewRestaurant(@RequestParam int newRestaurantId,
                                                    @PathVariable int id,
                                                    @PathVariable int restaurantId) {
